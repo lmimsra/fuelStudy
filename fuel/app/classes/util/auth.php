@@ -6,13 +6,12 @@
  * Time: 0:08
  */
 
-namespace\Fuel\Core\MyAuth;
 
 use \Fuel\Core\Session;
 
 
 
-class MyAuth {
+class Util_Auth {
     public static function login($loginId, $loginPass) {
         $login_flag = false;
         $user = Model_User::query()->where(array('user_id' => $loginId, 'password' => $loginPass))->get_one();

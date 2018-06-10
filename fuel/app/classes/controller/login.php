@@ -6,9 +6,12 @@
  * Time: 18:11
  */
 
+
+
 use \Fuel\Core\Controller;
 use \Fuel\Core\Response;
 use \Fuel\Core\View;
+
 
 class Controller_Login extends Controller {
     public function action_index(){
@@ -16,25 +19,14 @@ class Controller_Login extends Controller {
         if (isset($_POST['login-id']) && isset($_POST['login-id'])) {
             $loginId = $_POST['login-id'];
             $loginPass = $_POST['login-pass'];
-            $user = Model_User::query()->where(array('user_id' => $loginId, 'password' => $loginPass))->get_one();
-            if (!$user == null) {
+            if (Util_Auth::login($loginId,$loginPass)) {
                 Response::redirect('/menu');
             } else {
                 $data['msg']='入力が正しくないです';
-                return Response::forge(View::forge('login',$data));
+                return View::forge('login',$data);
             }
         }
         return Response::forge(View::forge('login',$data));
     }
     
-    public function action_go(){
-        $loginId=$_POST['login-id'];
-        $loginPass=$_POST['login-pass'];
-        $user=Model_User::query()->where(array('user_id'=>$loginId,'password'=>$loginPass))->get_one();
-        if (!$user==null){
-            return Response::forge(View::forge('main'));
-        }else{
-            return Response::forge(View::forge('login'));
-        }
-    }
 }
